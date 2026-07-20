@@ -71,7 +71,7 @@ const products = [
       'Certificadas e rastreadas',
       'Apoio técnico incluído',
     ],
-    image: `${imgBase}/equipments/Sementes_e_equipamentos.jpg`,
+    image: '/images/equipments/Sementes_e_equipamentos.jpg',
     price: 'Sob consulta',
   },
 ];

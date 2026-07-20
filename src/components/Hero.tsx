@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react';
 import { ArrowDown, Sprout } from 'lucide-react';
 
 const slides = [
-  'https://raw.githubusercontent.com/eixyz/eloviada_projects/main/agro/images/market/Colheita_de_Milho_Campo_da_Seminal_Agricola.jpg',
-  'https://raw.githubusercontent.com/eixyz/eloviada_projects/main/agro/images/market/Batata_roxa_e_branca_para_o_mercado.jpg',
-  'https://raw.githubusercontent.com/eixyz/eloviada_projects/main/agro/images/irrigation/Sistema_de_Irrigacao_por_aspersores1.jpg',
-  'https://raw.githubusercontent.com/eixyz/eloviada_projects/main/agro/images/sombrite/montagem_de_sombrite1.jpg',
-  'https://raw.githubusercontent.com/eixyz/eloviada_projects/main/agro/images/market/Cultura_de_pepino1.jpg',
-  'https://raw.githubusercontent.com/eixyz/eloviada_projects/main/agro/images/equipments/Sementes_e_equipamentos.jpg',
+  '/images/equipments/Sementes_e_equipamentos.jpg',
+  '/images/irrigation/Kit_de_Irrigacao_por_Gota_a_gota1.jpg',
+  '/images/equipments/Adubos1.jpg',
+  '/images/irrigation/Bomba_Solar_Future_Pump.jpg',
+  '/images/equipments/Grade_Disponivel.jpg',
+  '/images/equipments/Sementes_e_equipamentos2.jpg',
 ];
 
 export default function Hero() {

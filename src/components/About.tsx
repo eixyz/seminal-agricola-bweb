@@ -43,7 +43,7 @@ export default function About() {
         <div ref={ref} className={`reveal ${isVisible ? 'is-visible' : ''} grid items-center gap-16 lg:grid-cols-2`}>
           <div className="relative">
             <img
-              src="https://raw.githubusercontent.com/eixyz/eloviada_projects/main/agro/images/about/logo_do_Seminal_Agricola.png"
+              src="/images/about/logo_do_Seminal_Agricola.png"
               alt="Logo da Seminal Agrícola"
               className="rounded-3xl object-cover shadow-2xl shadow-forest-900/20"
             />

@@ -16,7 +16,7 @@ const services = [
       'Equipamentos: grades, arados, pulverizadores',
       'Fornecimento a retalho e por grosso',
     ],
-    image: `${imgBase}/store/loja_de_insumos_and_equipment_1.jpg`,
+    image: '/images/equipments/Adubos1.jpg',
   },
   {
     icon: Home,
@@ -30,7 +30,7 @@ const services = [
       'Sistemas hidropónicos integrados',
       'Instalação com irrigação integrada',
     ],
-    image: `${imgBase}/sombrite/montagem_de_sombrite1.jpg`,
+    image: '/images/equipments/Grade_Disponivel.jpg',
   },
   {
     icon: BarChart3,
@@ -58,7 +58,7 @@ const services = [
       'Bombas solares Future Pump',
       'Reservatórios e captação de água da chuva',
     ],
-    image: `${imgBase}/irrigation/Sistema_de_Irrigacao_por_aspersores1.jpg`,
+    image: '/images/irrigation/Kit_de_Irrigacao_por_Gota_a_gota1.jpg',
   },
   {
     icon: Megaphone,
@@ -72,7 +72,7 @@ const services = [
       'Promoção de safra e produtos sazonais',
       'Parcerias com meios de comunicação',
     ],
-    image: `${imgBase}/adds/Panfeto_dos_servicos.jpg`,
+    image: '/images/adds/Panfeto_dos_servicos.jpg',
   },
 ];
 

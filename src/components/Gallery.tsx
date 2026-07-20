@@ -5,12 +5,12 @@ const imgBase = 'https://raw.githubusercontent.com/eixyz/eloviada_projects/main/
 const images = [
   { src: `${imgBase}/market/Colheita_de_Milho_Campo_da_Seminal_Agricola.jpg`, alt: 'Colheita de Milho', span: 'lg:row-span-2' },
   { src: `${imgBase}/market/Batata_roxia_e_branca_para_o_mercado.jpg`, alt: 'Batata roxa e branca', span: '' },
-  { src: `${imgBase}/irrigation/Sistema_de_Irrigacao_por_aspersores1.jpg`, alt: 'Sistema de Irrigação por aspersores', span: '' },
+  { src: '/images/irrigation/Kit_de_Irrigacao_por_Gota_a_gota1.jpg', alt: 'Sistema de Irrigação por aspersores', span: '' },
   { src: `${imgBase}/sombrite/montagem_de_sombrite1.jpg`, alt: 'Montagem de sombrite', span: 'lg:row-span-2' },
   { src: `${imgBase}/market/Cultura_de_pepino1.jpg`, alt: 'Cultura de pepino', span: '' },
   { src: `${imgBase}/market/Cultura_de_Batata_Doce_Campo_da_Seminal_Agricola.jpg`, alt: 'Cultura de Batata-doce', span: '' },
   { src: `${imgBase}/market/Colheita_de_Beterraba1.jpg`, alt: 'Colheita de Beterraba', span: '' },
-  { src: `${imgBase}/equipments/Sementes_e_equipamentos2.jpg`, alt: 'Sementes e equipamentos', span: '' },
+  { src: '/images/equipments/Sementes_e_equipamentos.jpg', alt: 'Sementes e equipamentos', span: '' },
 ];
 
 export default function Gallery() {

@@ -16,21 +16,21 @@ const news = [
     title: 'Novos Sistemas de Irrigação Solar',
     excerpt:
       'Implementamos bombas solares Future Pump em parceria com produtores locais, reduzindo custos e aumentando produtividade.',
-    image: `${imgBase}/irrigation/Sistema_de_Irrigacao_por_aspersores1.jpg`,
+    image: '/images/irrigation/Bomba_Solar_Future_Pump.jpg',
   },
   {
     tag: 'Infraestrutura',
     title: '10 Estufas Instaladas Este Ano',
     excerpt:
       'A Seminal Agrícola concluiu a instalação de 10 novas estruturas de sombrite e estufa para produtores parceiros na região de Maputo.',
-    image: `${imgBase}/sombrite/montagem_de_sombrite1.jpg`,
+    image: '/images/equipments/Grade_Disponivel.jpg',
   },
   {
     tag: 'Publicidade',
     title: 'Panfleto de Serviços 2026',
     excerpt:
       'Descarregue o nosso panfleto actualizado com todos os serviços disponíveis para a safra 2026. Inclui promoções especiais para novos clientes.',
-    image: `${imgBase}/adds/Panfeto_dos_servicos.jpg`,
+    image: '/images/adds/Panfeto_dos_servicos.jpg',
     isDownload: true,
   },
 ];
