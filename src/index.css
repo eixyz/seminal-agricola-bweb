@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -10,11 +12,17 @@
   }
 
   body {
-    @apply bg-cream-50 text-olive-950 font-sans;
+    @apply bg-cream-100 text-green-800/80 font-sans;
+    line-height: 1.65;
+  }
+
+  h1, h2, h3, h4, h5 {
+    @apply font-serif text-green-800;
+    line-height: 1.2;
   }
 
   ::selection {
-    @apply bg-olive-300 text-olive-950;
+    @apply bg-green-200 text-green-900;
   }
 }
 
@@ -39,22 +47,6 @@
   .reveal-delay-3 { transition-delay: 0.3s; }
   .reveal-delay-4 { transition-delay: 0.4s; }
 
-  .shimmer-text {
-    background: linear-gradient(
-      90deg,
-      theme('colors.olive.800') 0%,
-      theme('colors.olive.500') 25%,
-      theme('colors.cream.400') 50%,
-      theme('colors.olive.500') 75%,
-      theme('colors.olive.800') 100%
-    );
-    background-size: 200% auto;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: shimmer 4s linear infinite;
-  }
-
   .hide-scrollbar::-webkit-scrollbar {
     display: none;
   }
@@ -64,18 +56,15 @@
   }
 }
 
-/* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: theme('colors.cream.100');
+  @apply bg-cream-200;
 }
 ::-webkit-scrollbar-thumb {
-  background: theme('colors.olive.400');
-  border-radius: 5px;
-  border: 2px solid theme('colors.cream.100');
+  @apply bg-green-400 rounded-full border-2 border-cream-200;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: theme('colors.olive.600');
+  @apply bg-green-600;
 }

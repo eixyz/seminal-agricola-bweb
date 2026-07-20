@@ -1,27 +1,37 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import About from './components/About';
-import Products from './components/Products';
-import Services from './components/Services';
-import Gallery from './components/Gallery';
-import News from './components/News';
-import Contact from './components/Contact';
 import Footer from './components/Footer';
+import ScrollToTop from './components/ScrollToTop';
+import HomePage from './pages/HomePage';
+import ProdutosPage from './pages/ProdutosPage';
+import ProductDetailPage from './pages/ProductDetailPage';
+import ServicosPage from './pages/ServicosPage';
+import ServiceDetailPage from './pages/ServiceDetailPage';
+import SobrePage from './pages/SobrePage';
+import NoticiasPage from './pages/NoticiasPage';
+import ContactoPage from './pages/ContactoPage';
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-cream-50">
-      <Navbar />
-      <main>
-        <Hero />
-        <About />
-        <Products />
-        <Services />
-        <Gallery />
-        <News />
-        <Contact />
-      </main>
-      <Footer />
-    </div>
+    <BrowserRouter>
+      <ScrollToTop />
+      <div className="flex min-h-screen flex-col">
+        <Navbar />
+        <main className="flex-1">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/produtos" element={<ProdutosPage />} />
+            <Route path="/produtos/:slug" element={<ProductDetailPage />} />
+            <Route path="/servicos" element={<ServicosPage />} />
+            <Route path="/servicos/:slug" element={<ServiceDetailPage />} />
+            <Route path="/sobre" element={<SobrePage />} />
+            <Route path="/noticias" element={<NoticiasPage />} />
+            <Route path="/contacto" element={<ContactoPage />} />
+            <Route path="*" element={<HomePage />} />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
+    </BrowserRouter>
   );
 }
