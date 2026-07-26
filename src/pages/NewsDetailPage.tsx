@@ -1,20 +1,39 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, Calendar, User, Clock, Download, Share2 } from 'lucide-react';
-import { news } from '../lib/data';
 import CtaBanner from '../components/CtaBanner';
-import { useReveal } from '../lib/hooks';
+import { fetchNewsArticle, fetchNews } from '../lib/content';
+import type { NewsArticle } from '../lib/types';
 
 export default function NewsDetailPage() {
   const { slug } = useParams<{ slug: string }>();
-  const article = news.find((n) => n.slug === slug);
-  const { ref, isVisible } = useReveal<HTMLDivElement>();
+  const [article, setArticle] = useState<NewsArticle | null>(null);
+  const [related, setRelated] = useState<NewsArticle[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    setLoading(true);
+    setError(null);
+    Promise.all([fetchNewsArticle(slug ?? ''), fetchNews()])
+      .then(([a, all]) => {
+        setArticle(a);
+        setRelated(all.filter((n) => n.slug !== slug).slice(0, 3));
+      })
+      .catch((e) => setError(e.message))
+      .finally(() => setLoading(false));
     window.scrollTo(0, 0);
   }, [slug]);
 
-  if (!article) {
+  if (loading) {
+    return (
+      <div className="flex min-h-[60vh] items-center justify-center bg-cream-50 px-6">
+        <p className="text-green-800/60">A carregar artigo...</p>
+      </div>
+    );
+  }
+
+  if (error || !article) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center bg-cream-50 px-6">
         <div className="text-center">
@@ -27,8 +46,6 @@ export default function NewsDetailPage() {
       </div>
     );
   }
-
-  const related = news.filter((n) => n.slug !== article.slug).slice(0, 3);
 
   return (
     <>
@@ -46,7 +63,7 @@ export default function NewsDetailPage() {
             <div className="mt-5 flex flex-wrap items-center gap-5 text-sm text-cream-100/70">
               <span className="flex items-center gap-1.5"><Calendar className="h-4 w-4" /> {article.date}</span>
               <span className="flex items-center gap-1.5"><User className="h-4 w-4" /> {article.author}</span>
-              <span className="flex items-center gap-1.5"><Clock className="h-4 w-4" /> {article.readTime}</span>
+              <span className="flex items-center gap-1.5"><Clock className="h-4 w-4" /> {article.read_time}</span>
             </div>
           </div>
         </div>
@@ -55,56 +72,54 @@ export default function NewsDetailPage() {
       {/* Article body */}
       <section className="bg-cream-50 py-16">
         <div className="mx-auto max-w-4xl px-6">
-          <div ref={ref} className={`reveal ${isVisible ? 'is-visible' : ''}`}>
-            {/* Excerpt / lead */}
-            <p className="mb-10 border-l-4 border-green-500 pl-6 font-serif text-xl font-400 italic leading-relaxed text-green-800/80">
-              {article.excerpt}
-            </p>
+          {/* Excerpt / lead */}
+          <p className="mb-10 border-l-4 border-green-500 pl-6 font-serif text-xl font-400 italic leading-relaxed text-green-800/80">
+            {article.excerpt}
+          </p>
 
-            {/* Content sections */}
-            <div className="space-y-10">
-              {article.content.map((section, i) => (
-                <div key={i}>
-                  <h2 className="mb-3 font-serif text-2xl font-600 text-green-900">{section.heading}</h2>
-                  <p className="text-base font-300 leading-[1.8] text-green-800/70">{section.body}</p>
-                </div>
-              ))}
-            </div>
-
-            {/* Gallery */}
-            {article.gallery && article.gallery.length > 0 && (
-              <div className="mt-12">
-                <h3 className="mb-5 font-serif text-xl font-600 text-green-900">Galeria</h3>
-                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                  {article.gallery.map((img, i) => (
-                    <div key={i} className="group overflow-hidden rounded-2xl ring-1 ring-green-100">
-                      <img src={img} alt={`${article.title} — imagem ${i + 1}`} className="h-48 w-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy" />
-                    </div>
-                  ))}
-                </div>
+          {/* Content sections */}
+          <div className="space-y-10">
+            {article.content.map((section, i) => (
+              <div key={i}>
+                <h2 className="mb-3 font-serif text-2xl font-600 text-green-900">{section.heading}</h2>
+                <p className="text-base font-300 leading-[1.8] text-green-800/70">{section.body}</p>
               </div>
-            )}
+            ))}
+          </div>
 
-            {/* Download / Share actions */}
-            <div className="mt-12 flex flex-wrap items-center gap-4 border-t border-green-100 pt-8">
-              {article.isDownload && (
-                <a href={article.image} download className="inline-flex items-center gap-2 rounded-full bg-green-600 px-6 py-3 text-sm font-600 text-cream-50 transition-all hover:bg-green-500 hover:shadow-lg">
-                  <Download className="h-4 w-4" /> Descarregar Panfleto
-                </a>
-              )}
-              <button
-                onClick={() => {
-                  if (navigator.share) {
-                    navigator.share({ title: article.title, url: window.location.href });
-                  } else {
-                    navigator.clipboard?.writeText(window.location.href);
-                  }
-                }}
-                className="inline-flex items-center gap-2 rounded-full border border-green-200 px-6 py-3 text-sm font-600 text-green-800 transition-all hover:bg-green-50"
-              >
-                <Share2 className="h-4 w-4" /> Partilhar
-              </button>
+          {/* Gallery */}
+          {article.gallery && article.gallery.length > 0 && (
+            <div className="mt-12">
+              <h3 className="mb-5 font-serif text-xl font-600 text-green-900">Galeria</h3>
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {article.gallery.map((img, i) => (
+                  <div key={i} className="group overflow-hidden rounded-2xl ring-1 ring-green-100">
+                    <img src={img} alt={`${article.title} — imagem ${i + 1}`} className="h-48 w-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy" />
+                  </div>
+                ))}
+              </div>
             </div>
+          )}
+
+          {/* Download / Share actions */}
+          <div className="mt-12 flex flex-wrap items-center gap-4 border-t border-green-100 pt-8">
+            {article.is_download && (
+              <a href={article.image} download className="inline-flex items-center gap-2 rounded-full bg-green-600 px-6 py-3 text-sm font-600 text-cream-50 transition-all hover:bg-green-500 hover:shadow-lg">
+                <Download className="h-4 w-4" /> Descarregar Panfleto
+              </a>
+            )}
+            <button
+              onClick={() => {
+                if (navigator.share) {
+                  navigator.share({ title: article.title, url: window.location.href });
+                } else {
+                  navigator.clipboard?.writeText(window.location.href);
+                }
+              }}
+              className="inline-flex items-center gap-2 rounded-full border border-green-200 px-6 py-3 text-sm font-600 text-green-800 transition-all hover:bg-green-50"
+            >
+              <Share2 className="h-4 w-4" /> Partilhar
+            </button>
           </div>
         </div>
       </section>

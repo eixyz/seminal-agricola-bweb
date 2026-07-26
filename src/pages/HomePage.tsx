@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, ArrowUpRight, ShoppingBag, Home, BarChart3, Droplets, Megaphone, type LucideIcon } from 'lucide-react';
-import { company, products, services, news, partners, heroSlides } from '../lib/data';
+import { company, partners, heroSlides } from '../lib/data';
+import { fetchProducts, fetchServices, fetchNews } from '../lib/content';
 import { useReveal } from '../lib/hooks';
+import type { Product, Service, NewsArticle } from '../lib/types';
 
 const iconMap: Record<string, LucideIcon> = {
   ShoppingBag, Home, BarChart3, Droplets, Megaphone,
@@ -14,9 +16,19 @@ export default function HomePage() {
   const { ref: productsRef, isVisible: productsVisible } = useReveal<HTMLDivElement>();
   const { ref: newsRef, isVisible: newsVisible } = useReveal<HTMLDivElement>();
 
+  const [products, setProducts] = useState<Product[]>([]);
+  const [services, setServices] = useState<Service[]>([]);
+  const [news, setNews] = useState<NewsArticle[]>([]);
+
   useEffect(() => {
     const t = setInterval(() => setSlideIdx((i) => (i + 1) % heroSlides.length), 5000);
     return () => clearInterval(t);
+  }, []);
+
+  useEffect(() => {
+    fetchProducts().then(setProducts).catch(() => {});
+    fetchServices().then(setServices).catch(() => {});
+    fetchNews().then(setNews).catch(() => {});
   }, []);
 
   const previewServices = services.slice(0, 3);
@@ -172,7 +184,7 @@ export default function HomePage() {
             </h2>
           </div>
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            {news.map((item, i) => (
+            {news.slice(0, 4).map((item, i) => (
               <Link key={item.slug} to={`/noticias/${item.slug}`} className={`reveal reveal-delay-${(i % 4) + 1} ${newsVisible ? 'is-visible' : ''} group flex flex-col overflow-hidden rounded-3xl bg-cream-50 ring-1 ring-green-100 transition-all hover:shadow-xl hover:ring-green-300`}>
                 <div className="relative h-48 overflow-hidden">
                   <img src={item.image} alt={item.title} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy" />

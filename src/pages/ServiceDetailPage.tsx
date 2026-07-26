@@ -1,8 +1,11 @@
+import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ShoppingBag, Home, BarChart3, Droplets, Megaphone, type LucideIcon } from 'lucide-react';
 import PageHero from '../components/PageHero';
 import CtaBanner from '../components/CtaBanner';
-import { services, company } from '../lib/data';
+import { fetchServices, fetchService } from '../lib/content';
+import { company } from '../lib/data';
+import type { Service } from '../lib/types';
 
 const iconMap: Record<string, LucideIcon> = {
   ShoppingBag, Home, BarChart3, Droplets, Megaphone,
@@ -10,7 +13,28 @@ const iconMap: Record<string, LucideIcon> = {
 
 export default function ServiceDetailPage() {
   const { slug } = useParams();
-  const service = services.find((s) => s.slug === slug);
+  const [service, setService] = useState<Service | null>(null);
+  const [otherServices, setOtherServices] = useState<Service[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(true);
+    Promise.all([fetchService(slug ?? ''), fetchServices()])
+      .then(([s, all]) => {
+        setService(s);
+        setOtherServices(all.filter((x) => x.slug !== slug));
+      })
+      .finally(() => setLoading(false));
+  }, [slug]);
+
+  if (loading) {
+    return (
+      <>
+        <PageHero eyebrow="Serviço" title="A carregar..." subtitle="" crumbs={[{ label: 'Serviços', to: '/servicos' }, { label: '...' }]} />
+        <div className="py-20 text-center text-green-800/60">A carregar serviço...</div>
+      </>
+    );
+  }
 
   if (!service) {
     return (
@@ -24,7 +48,6 @@ export default function ServiceDetailPage() {
   }
 
   const Icon = iconMap[service.icon];
-  const otherServices = services.filter((s) => s.slug !== service.slug);
 
   return (
     <>

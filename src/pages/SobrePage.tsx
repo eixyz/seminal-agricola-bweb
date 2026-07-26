@@ -1,25 +1,37 @@
+import { useEffect, useState } from 'react';
 import { Target, Eye, Gem, MapPin, Phone, Mail, FileText } from 'lucide-react';
 import PageHero from '../components/PageHero';
 import CtaBanner from '../components/CtaBanner';
+import { fetchAbout } from '../lib/content';
 import { company, partners } from '../lib/data';
 import { useReveal } from '../lib/hooks';
-
-const mvv = [
-  { icon: Target, title: 'Missão', text: 'Ser o trampolim para o sector de agronegócio — apoiando produtores, empresas e comunidades a crescer com tecnologia, eficiência e sustentabilidade.' },
-  { icon: Eye, title: 'Visão', text: 'Investir, apostar, inovar e assistir em tecnologias da cadeia do agronegócio — tornando-nos referência em agricultura moderna em Moçambique.' },
-  { icon: Gem, title: 'Valores', items: ['Proactividade', 'Coragem', 'Inovação', 'Responsabilidade'] },
-];
-
-const companyInfo = [
-  { icon: FileText, label: 'Denominação', value: company.name },
-  { icon: MapPin, label: 'Localização', value: company.location },
-  // { icon: FileText, label: 'NUIT', value: company.nuit },
-  { icon: Phone, label: 'Telefone', value: company.phone, href: `tel:${company.phoneRaw}` },
-  { icon: Mail, label: 'Email', value: company.email, href: `mailto:${company.email}` },
-];
+import type { About } from '../lib/types';
 
 export default function SobrePage() {
   const { ref, isVisible } = useReveal<HTMLDivElement>();
+  const [about, setAbout] = useState<About | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetchAbout()
+      .then(setAbout)
+      .catch((e) => setError(e.message))
+      .finally(() => setLoading(false));
+  }, []);
+
+  const companyInfo = [
+    { icon: FileText, label: 'Denominação', value: company.name },
+    { icon: MapPin, label: 'Localização', value: company.location },
+    { icon: Phone, label: 'Telefone', value: company.phone, href: `tel:${company.phoneRaw}` },
+    { icon: Mail, label: 'Email', value: company.email, href: `mailto:${company.email}` },
+  ];
+
+  const mvv = about ? [
+    { icon: Target, title: 'Missão', text: about.mission },
+    { icon: Eye, title: 'Visão', text: about.vision },
+    { icon: Gem, title: 'Valores', items: about.values },
+  ] : [];
 
   return (
     <>
@@ -33,63 +45,68 @@ export default function SobrePage() {
       {/* Intro */}
       <section className="bg-cream-50 py-20">
         <div className="mx-auto max-w-7xl px-6">
-          <div ref={ref} className={`reveal ${isVisible ? 'is-visible' : ''} grid items-center gap-16 lg:grid-cols-2`}>
-            <div className="relative">
-              <img src="/images/about/logo_do_Seminal_Agricola.png" alt="Logo Seminal Agrícola" className="rounded-3xl object-cover shadow-2xl shadow-green-900/20" />
-              <div className="absolute -left-6 -top-6 -z-10 h-32 w-32 rounded-3xl bg-green-200/60" />
-            </div>
-            <div>
-              <div className="mb-4 flex items-center gap-3">
-                <span className="h-px w-10 bg-green-400" />
-                <span className="text-sm font-600 uppercase tracking-[0.2em] text-green-600">Empresa</span>
+          {loading ? (
+            <p className="text-center text-green-800/60">A carregar...</p>
+          ) : error ? (
+            <p className="text-center text-red-600">Erro: {error}</p>
+          ) : about ? (
+            <div ref={ref} className={`reveal ${isVisible ? 'is-visible' : ''} grid items-center gap-16 lg:grid-cols-2`}>
+              <div className="relative">
+                <img src="/images/about/logo_do_Seminal_Agricola.png" alt="Logo Seminal Agrícola" className="rounded-3xl object-cover shadow-2xl shadow-green-900/20" />
+                <div className="absolute -left-6 -top-6 -z-10 h-32 w-32 rounded-3xl bg-green-200/60" />
               </div>
-              <h2 className="font-serif text-3xl font-600 leading-tight text-green-900 sm:text-4xl">
-                {company.shortName}, SU, LDA
-              </h2>
-              <div className="mt-6 space-y-4 text-base font-300 leading-relaxed text-green-800/80">
-                <p>
-                  A <strong>SEMINAL AGRICOLA, SU, LDA</strong> é uma empresa de agronegócio dedicada à inovação tecnológica e à produtividade agrícola, pecuária e aquacultural. O nosso escopo abrange consultoria e serviços especializados: assistência técnica, sistemas de produção e de irrigação, reservatórios de água, montagem de estufas e sombrite, fornecimento de insumos e equipamentos, mentoria de agronegócio e pesquisas.
-                </p>
-                <p>
-                  Trabalhamos lado a lado com pequenos e médios produtores para melhorar rendimento, qualidade e ligação ao mercado — contribuindo para o fortalecimento da cadeia alimentar local e o desenvolvimento sustentável de Moçambique.
-                </p>
+              <div>
+                <div className="mb-4 flex items-center gap-3">
+                  <span className="h-px w-10 bg-green-400" />
+                  <span className="text-sm font-600 uppercase tracking-[0.2em] text-green-600">Empresa</span>
+                </div>
+                <h2 className="font-serif text-3xl font-600 leading-tight text-green-900 sm:text-4xl">
+                  {about.intro_title}
+                </h2>
+                <div className="mt-6 space-y-4 text-base font-300 leading-relaxed text-green-800/80">
+                  {about.intro_paragraphs.map((p, i) => (
+                    <p key={i}>{p}</p>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
+          ) : null}
         </div>
       </section>
 
       {/* Mission / Vision / Values */}
-      <section className="bg-cream-100 py-20">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="mx-auto mb-12 max-w-2xl text-center">
-            <span className="text-sm font-600 uppercase tracking-[0.2em] text-green-600">Identidade</span>
-            <h2 className="mt-2 font-serif text-3xl font-600 text-green-900 sm:text-4xl">Missão, Visão & Valores</h2>
-          </div>
-          <div className="grid gap-6 lg:grid-cols-3">
-            {mvv.map((item) => (
-              <div key={item.title} className="group rounded-3xl bg-cream-50 p-8 ring-1 ring-green-100 transition-all hover:ring-green-300 hover:shadow-xl">
-                <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-green-100 text-green-700 transition-all group-hover:bg-green-700 group-hover:text-cream-50">
-                  <item.icon className="h-7 w-7" strokeWidth={1.6} />
+      {about && (
+        <section className="bg-cream-100 py-20">
+          <div className="mx-auto max-w-7xl px-6">
+            <div className="mx-auto mb-12 max-w-2xl text-center">
+              <span className="text-sm font-600 uppercase tracking-[0.2em] text-green-600">Identidade</span>
+              <h2 className="mt-2 font-serif text-3xl font-600 text-green-900 sm:text-4xl">Missão, Visão & Valores</h2>
+            </div>
+            <div className="grid gap-6 lg:grid-cols-3">
+              {mvv.map((item) => (
+                <div key={item.title} className="group rounded-3xl bg-cream-50 p-8 ring-1 ring-green-100 transition-all hover:ring-green-300 hover:shadow-xl">
+                  <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-green-100 text-green-700 transition-all group-hover:bg-green-700 group-hover:text-cream-50">
+                    <item.icon className="h-7 w-7" strokeWidth={1.6} />
+                  </div>
+                  <h3 className="mb-3 font-serif text-xl font-600 text-green-900">{item.title}</h3>
+                  {item.text ? (
+                    <p className="text-base font-300 leading-relaxed text-green-800/70">{item.text}</p>
+                  ) : (
+                    <ul className="space-y-2">
+                      {item.items!.map((val) => (
+                        <li key={val} className="flex items-center gap-2 text-base text-green-800/70">
+                          <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
+                          {val}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
-                <h3 className="mb-3 font-serif text-xl font-600 text-green-900">{item.title}</h3>
-                {item.text ? (
-                  <p className="text-base font-300 leading-relaxed text-green-800/70">{item.text}</p>
-                ) : (
-                  <ul className="space-y-2">
-                    {item.items!.map((val) => (
-                      <li key={val} className="flex items-center gap-2 text-base text-green-800/70">
-                        <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
-                        {val}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Company data */}
       <section className="bg-cream-50 py-20">

@@ -170,8 +170,8 @@ function findResponse(query: string): Message {
     if (/email/.test(q)) return { role: 'bot', text: `O nosso email é: ${company.email}` };
     if (/telefone|whatsapp|ligar|chamar|celular|movel/.test(q)) return { role: 'bot', text: `Pode contactar-nos pelo telefone/WhatsApp: ${company.phone}` };
     if (/localizacao|morada|onde|endereco/.test(q)) return { role: 'bot', text: `Estamos localizados em ${company.location}.` };
-    if (/nuit/.test(q)) return { role: 'bot', text: `O nosso NUIT é: ${company.nuit}` };
-    return { role: 'bot', text: `Pode contactar-nos por:\n📞 ${company.phone}\n✉️ ${company.email}\n📍 ${company.location}\nNUIT: ${company.nuit}`, links: [{ label: 'Página de Contacto', to: '/contacto' }] };
+    if (/nuit/.test(q)) return { role: 'bot', text: `Para informações sobre NUIT, contacte-nos diretamente.`, links: [{ label: 'Página de Contacto', to: '/contacto' }] };
+    return { role: 'bot', text: `Pode contactar-nos por:\n📞 ${company.phone}\n✉️ ${company.email}\n📍 ${company.location}`, links: [{ label: 'Página de Contacto', to: '/contacto' }] };
   }
 
   // Price

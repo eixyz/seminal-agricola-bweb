@@ -1,14 +1,38 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
 import PageHero from '../components/PageHero';
 import CtaBanner from '../components/CtaBanner';
-import { products, company } from '../lib/data';
+import { fetchProducts, fetchProduct } from '../lib/content';
+import { company } from '../lib/data';
+import type { Product } from '../lib/types';
 
 export default function ProductDetailPage() {
   const { slug } = useParams();
-  const product = products.find((p) => p.slug === slug);
+  const [product, setProduct] = useState<Product | null>(null);
+  const [otherProducts, setOtherProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
   const [activeImg, setActiveImg] = useState(0);
+
+  useEffect(() => {
+    setLoading(true);
+    setActiveImg(0);
+    Promise.all([fetchProduct(slug ?? ''), fetchProducts()])
+      .then(([p, all]) => {
+        setProduct(p);
+        setOtherProducts(all.filter((x) => x.slug !== slug));
+      })
+      .finally(() => setLoading(false));
+  }, [slug]);
+
+  if (loading) {
+    return (
+      <>
+        <PageHero eyebrow="Produto" title="A carregar..." subtitle="" crumbs={[{ label: 'Produtos', to: '/produtos' }, { label: '...' }]} />
+        <div className="py-20 text-center text-green-800/60">A carregar produto...</div>
+      </>
+    );
+  }
 
   if (!product) {
     return (
@@ -20,8 +44,6 @@ export default function ProductDetailPage() {
       </>
     );
   }
-
-  const otherProducts = products.filter((p) => p.slug !== product.slug);
 
   return (
     <>
