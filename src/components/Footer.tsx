@@ -65,7 +65,7 @@ export default function Footer() {
         </div>
         <div className="border-t border-green-900">
           <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-2 px-6 py-5 text-xs text-cream-100/50 sm:flex-row">
-            <span>© 2026 {company.name} · NUIT: {company.nuit} · {company.location}</span>
+            <span>© 2026 {company.name} · {company.location}</span>
             <a href={`mailto:${company.email}`} className="transition-colors hover:text-gold-400">{company.email}</a>
           </div>
         </div>

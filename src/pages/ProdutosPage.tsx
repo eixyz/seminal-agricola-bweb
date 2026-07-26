@@ -2,9 +2,12 @@ import { Link } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
 import PageHero from '../components/PageHero';
 import CtaBanner from '../components/CtaBanner';
-import { products, company } from '../lib/data';
+import { products } from '../lib/data';
+import { useReveal } from '../lib/hooks';
 
 export default function ProdutosPage() {
+  const { ref, isVisible } = useReveal<HTMLDivElement>();
+
   return (
     <>
       <PageHero
@@ -16,19 +19,19 @@ export default function ProdutosPage() {
 
       <section className="bg-cream-50 py-20">
         <div className="mx-auto max-w-7xl px-6">
-          <div className="grid gap-8 lg:grid-cols-2">
-            {products.map((p) => (
-              <article key={p.slug} className="group flex flex-col overflow-hidden rounded-3xl bg-white ring-1 ring-green-100 transition-all duration-500 hover:shadow-xl hover:ring-green-300 sm:flex-row">
-                <div className="relative h-64 overflow-hidden sm:h-auto sm:w-2/5">
+          <div ref={ref} className={`reveal ${isVisible ? 'is-visible' : ''} grid gap-8 sm:grid-cols-2 lg:grid-cols-3`}>
+            {products.map((p, i) => (
+              <article key={p.slug} className={`reveal reveal-delay-${(i % 3) + 1} ${isVisible ? 'is-visible' : ''} group flex flex-col overflow-hidden rounded-3xl bg-white ring-1 ring-green-100 transition-all duration-500 hover:shadow-xl hover:ring-green-300`}>
+                <div className="relative h-52 overflow-hidden">
                   <img src={p.images[0]} alt={p.name} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-green-950/40 to-transparent sm:bg-gradient-to-r" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-green-950/40 to-transparent" />
                   <span className="absolute left-4 top-4 rounded-full bg-green-700 px-3 py-1 text-xs font-600 uppercase tracking-wider text-cream-50">{p.badge}</span>
                 </div>
-                <div className="flex flex-1 flex-col p-6 lg:p-8">
-                  <h3 className="font-serif text-2xl font-600 text-green-900">{p.name}</h3>
-                  <p className="mt-3 text-sm font-300 leading-relaxed text-green-800/70">{p.description}</p>
+                <div className="flex flex-1 flex-col p-6">
+                  <h3 className="font-serif text-xl font-600 text-green-900">{p.name}</h3>
+                  <p className="mt-2 line-clamp-3 flex-1 text-sm font-300 leading-relaxed text-green-800/70">{p.description}</p>
                   <ul className="mt-4 space-y-1.5">
-                    {p.features.slice(0, 4).map((f) => (
+                    {p.features.slice(0, 3).map((f) => (
                       <li key={f} className="flex items-center gap-2 text-sm text-green-800/60">
                         <span className="h-1.5 w-1.5 rounded-full bg-green-400" />
                         {f}

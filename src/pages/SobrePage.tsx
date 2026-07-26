@@ -13,7 +13,7 @@ const mvv = [
 const companyInfo = [
   { icon: FileText, label: 'Denominação', value: company.name },
   { icon: MapPin, label: 'Localização', value: company.location },
-  { icon: FileText, label: 'NUIT', value: company.nuit },
+  // { icon: FileText, label: 'NUIT', value: company.nuit },
   { icon: Phone, label: 'Telefone', value: company.phone, href: `tel:${company.phoneRaw}` },
   { icon: Mail, label: 'Email', value: company.email, href: `mailto:${company.email}` },
 ];
@@ -36,10 +36,6 @@ export default function SobrePage() {
           <div ref={ref} className={`reveal ${isVisible ? 'is-visible' : ''} grid items-center gap-16 lg:grid-cols-2`}>
             <div className="relative">
               <img src="/images/about/logo_do_Seminal_Agricola.png" alt="Logo Seminal Agrícola" className="rounded-3xl object-cover shadow-2xl shadow-green-900/20" />
-              <div className="absolute -bottom-6 -right-4 rounded-2xl bg-green-800 px-6 py-4 text-cream-50 shadow-xl lg:-right-8">
-                <p className="font-serif text-2xl font-600">NUIT</p>
-                <p className="text-sm text-cream-200">{company.nuit}</p>
-              </div>
               <div className="absolute -left-6 -top-6 -z-10 h-32 w-32 rounded-3xl bg-green-200/60" />
             </div>
             <div>
@@ -102,13 +98,13 @@ export default function SobrePage() {
             <span className="text-sm font-600 uppercase tracking-[0.2em] text-green-600">Identificação</span>
             <h2 className="mt-2 font-serif text-3xl font-600 text-green-900">Dados da Empresa</h2>
           </div>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {companyInfo.map((info) => (
               <div key={info.label} className="rounded-2xl bg-white p-6 ring-1 ring-green-100 transition-all hover:shadow-lg">
                 <info.icon className="mb-3 h-6 w-6 text-green-600" strokeWidth={1.8} />
                 <p className="text-xs font-500 uppercase tracking-wider text-green-600/60">{info.label}</p>
                 {info.href ? (
-                  <a href={info.href} className="mt-1 block font-600 text-green-900 transition-colors hover:text-green-600">{info.value}</a>
+                  <a href={info.href} className="mt-1 block break-all font-600 text-green-900 transition-colors hover:text-green-600">{info.value}</a>
                 ) : (
                   <p className="mt-1 font-600 text-green-900">{info.value}</p>
                 )}

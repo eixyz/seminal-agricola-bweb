@@ -3,7 +3,7 @@ export const company = {
   shortName: 'SEMINAL AGRÍCOLA',
   subtitle: 'SU, LDA · Agronegócio',
   tagline: 'Agronegócio · Moçambique',
-  nuit: '401811974',
+  // nuit: '401811974',
   phone: '+258 86 560 2805',
   phoneRaw: '+258865602805',
   email: 'seminalagricola@gmail.com',
@@ -11,8 +11,6 @@ export const company = {
   whatsapp: 'https://wa.me/258865602805',
   whatsappGreeting: 'https://wa.me/258865602805?text=Olá,%20gostaria%20de%20mais%20informações.',
 };
-
-export const imgBase = 'https://raw.githubusercontent.com/eixyz/eloviada_projects/main/agro/images';
 
 export type Product = {
   slug: string;
@@ -40,9 +38,9 @@ export const products: Product[] = [
       'Produzido com práticas agrícolas sustentáveis',
     ],
     images: [
-      `${imgBase}/market/Colheita_de_Milho_Campo_da_Seminal_Agricola.jpg`,
-      `${imgBase}/market/Campo_de_Producao_de_Milho_da_Seminal_Agricola.jpg`,
-      `${imgBase}/market/Cultura_de_Milho_campo_da_Seminal_Agricola.jpg`,
+      '/images/equipments/Sementes_e_equipamentos.jpg',
+      '/images/equipments/Sementes_e_equipamentos2.jpg',
+      '/images/equipments/Grade_Disponivel.jpg',
     ],
     price: 'Sob consulta',
   },
@@ -58,7 +56,7 @@ export const products: Product[] = [
       'Entrega nacional',
       'Opções de embalagem flexíveis',
     ],
-    images: [`${imgBase}/market/Campo_de_Producao_de_Milho_da_Seminal_Agricola.jpg`],
+    images: ['/images/equipments/Sementes_e_equipamentos2.jpg', '/images/equipments/Adubos1.jpg'],
     price: 'Sob consulta',
   },
   {
@@ -73,7 +71,7 @@ export const products: Product[] = [
       'Embalagens de 1 a 50 kg',
       'Disponível a granel',
     ],
-    images: [`${imgBase}/market/Cultura_de_Beterraba_campo_de_producao_da_Seminal_Agricola.jpg`],
+    images: ['/images/equipments/Adubos2.jpg', '/images/equipments/Grade_Disponivel.jpg'],
     price: 'Sob consulta',
   },
   {
@@ -88,7 +86,7 @@ export const products: Product[] = [
       'Entrega por encomenda',
       'Qualidade de mercado garantida',
     ],
-    images: [`${imgBase}/market/Batata_roxa_e_branca_para_o_mercado.jpg`],
+    images: ['/images/sombrite/Hidroponico.png', '/images/equipments/Sementes_e_equipamentos.jpg'],
     price: 'Sob consulta',
   },
   {
@@ -166,7 +164,8 @@ export const services: Service[] = [
       'Ligação a compradores institucionais',
       'Logística e distribuição coordenada',
     ],
-    image: `${imgBase}/market/Cultura_de_Milho_campo_da_Seminal_Agricola.jpg`,
+    image: '/images/equipments/Grade_Disponivel.jpg',
+    gallery: ['/images/equipments/Grade_Disponivel.jpg', '/images/equipments/Sementes_e_equipamentos.jpg'],
   },
   {
     slug: 'irrigacao',
@@ -241,34 +240,151 @@ export const partners = [
   { name: 'ONG', src: '/images/partners/ONG.png' },
 ];
 
-export const news = [
+export type NewsArticle = {
+  slug: string;
+  tag: string;
+  title: string;
+  excerpt: string;
+  image: string;
+  date: string;
+  author: string;
+  readTime: string;
+  content: { heading: string; body: string }[];
+  gallery?: string[];
+  isDownload?: boolean;
+};
+
+export const news: NewsArticle[] = [
   {
+    slug: 'nova-safra-milho-2026',
     tag: 'Produção',
     title: 'Nova Safra de Milho 2026',
     excerpt:
       'Colheita recorde este ano, com foco em sustentabilidade e qualidade. Conheça as práticas agrícolas que tornaram possível este resultado.',
-    image: `${imgBase}/market/Colheita_de_Milho_Campo_da_Seminal_Agricola.jpg`,
+    image: '/images/equipments/Sementes_e_equipamentos.jpg',
+    date: '15 de Janeiro de 2026',
+    author: 'Equipa Seminal Agrícola',
+    readTime: '4 min de leitura',
+    content: [
+      {
+        heading: 'Uma Safra Recorde',
+        body: 'A Seminal Agrícola orgulha-se de anunciar uma colheita recorde de milho na safra 2026. Com mais de 50 hectares cultivados, a produção deste ano superou as expectativas, graças a um conjunto de práticas agrícolas sustentáveis e tecnologia de ponta aplicada em todas as fases do ciclo produtivo.',
+      },
+      {
+        heading: 'Práticas Sustentáveis',
+        body: 'Adoptámos a rotação de culturas, o uso controlado de fertilizantes orgânicos e sistemas de irrigação gota-a-gota que reduziram o consumo de água em 40%. Estas práticas não só aumentaram a produtividade como também preservaram a saúde do solo para as próximas safras.',
+      },
+      {
+        heading: 'Rastreabilidade e Qualidade',
+        body: 'Cada lote de milho é rastreado desde o campo até ao armazém, garantindo a origem e a qualidade do produto. Os grãos são seleccionados, secos e armazenados em condições óptimas, disponíveis em embalagens de 5 a 50 kg ou a granel.',
+      },
+      {
+        heading: 'Disponibilidade',
+        body: 'O milho da safra 2026 está disponível para retalho, grossistas e instituições. Para encomendas ou mais informações, contacte-nos através do WhatsApp ou do formulário de contacto.',
+      },
+    ],
+    gallery: [
+      '/images/equipments/Sementes_e_equipamentos.jpg',
+      '/images/equipments/Sementes_e_equipamentos2.jpg',
+      '/images/equipments/Grade_Disponivel.jpg',
+    ],
   },
   {
+    slug: 'irrigacao-solar-future-pump',
     tag: 'Irrigação',
     title: 'Novos Sistemas de Irrigação Solar',
     excerpt:
       'Implementamos bombas solares Future Pump em parceria com produtores locais, reduzindo custos e aumentando produtividade.',
     image: '/images/irrigation/Bomba_Solar_Future_Pump.jpg',
+    date: '8 de Fevereiro de 2026',
+    author: 'Departamento Técnico',
+    readTime: '5 min de leitura',
+    content: [
+      {
+        heading: 'Energia Solar ao Serviço da Agricultura',
+        body: 'Em parceria com a Future Pump, a Seminal Agrícola instalou 15 sistemas de bombagem solar em propriedades de produtores parceiros na região de Maputo. Estes sistemas eliminam os custos de combustível fóssil e reduzem a pegada de carbono, oferecendo uma solução sustentável e económica para a irrigação.',
+      },
+      {
+        heading: 'Como Funciona',
+        body: 'As bombas solares Future Pump utilizam painéis fotovoltaicos para captar energia solar, que alimenta uma bomba submersível que extrai água de poços ou furos. O sistema funciona automaticamente durante o dia, sem necessidade de operador, e inclui um controlador inteligente que optimiza o caudal conforme a disponibilidade de energia solar.',
+      },
+      {
+        heading: 'Resultados em Números',
+        body: 'Os produtores que adoptaram o sistema relataram uma redução de 70% nos custos de operação comparado a bombas a gasolina, e um aumento de 30% na produtividade devido à maior disponibilidade de água durante a época seca.',
+      },
+      {
+        heading: 'Para Quem?',
+        body: 'Os sistemas são ideais para produtores em zonas remotas sem acesso à rede eléctrica, com baixo custo de manutenção e operação silenciosa. A Seminal Agrícola oferece instalação completa, formação e assistência técnica pós-venda.',
+      },
+    ],
+    gallery: [
+      '/images/irrigation/Bomba_Solar_Future_Pump.jpg',
+      '/images/irrigation/Kit_de_Irrigacao_por_Gota_a_gota1.jpg',
+      '/images/irrigation/Kit_de_Irrigacao_por_Gota_a_gota2.jpg',
+    ],
   },
   {
+    slug: '10-estufas-instaladas',
     tag: 'Infraestrutura',
     title: '10 Estufas Instaladas Este Ano',
     excerpt:
       'A Seminal Agrícola concluiu a instalação de 10 novas estruturas de sombrite e estufa para produtores parceiros na região de Maputo.',
     image: '/images/equipments/Grade_Disponivel.jpg',
+    date: '20 de Março de 2026',
+    author: 'Equipa de Campo',
+    readTime: '3 min de leitura',
+    content: [
+      {
+        heading: 'Cultivo Protegido em Expansão',
+        body: 'A Seminal Agrícola concluiu com sucesso a instalação de 10 novas estruturas de estufa e sombrite para produtores parceiros na região de Maputo. Este projecto representa um investimento significativo na modernização da agricultura local e na protecção das culturas contra as condições climáticas adversas.',
+      },
+      {
+        heading: 'Tipos de Estruturas',
+        body: 'Foram instaladas estufas tipo túnel para hortícolas e estruturas de sombrite com diferentes densidades (30% a 75%), adaptadas às necessidades específicas de cada cultura e localização. Algumas estruturas incluem sistemas hidropónicos integrados para maximizar a eficiência.',
+      },
+      {
+        heading: 'Impacto nos Produtores',
+        body: 'Com as novas estruturas, os produtores parceiros conseguem agora cultivar durante todo o ano, independentemente da época seca ou chuvosa. A protecção contra pragas e condições extremas resultou num aumento significativo na qualidade e quantidade da produção.',
+      },
+    ],
+    gallery: [
+      '/images/sombrite/Hidroponico.png',
+      '/images/equipments/Grade_Disponivel.jpg',
+    ],
   },
   {
+    slug: 'panfleto-servicos-2026',
     tag: 'Publicidade',
     title: 'Panfleto de Serviços 2026',
     excerpt:
       'Descarregue o nosso panfleto actualizado com todos os serviços disponíveis para a safra 2026. Inclui promoções especiais para novos clientes.',
     image: '/images/adds/Panfeto_dos_servicos.jpg',
+    date: '1 de Abril de 2026',
+    author: 'Departamento de Marketing',
+    readTime: '1 min de leitura',
+    content: [
+      {
+        heading: 'Panfleto Actualizado',
+        body: 'Está disponível para download o nosso panfleto de serviços actualizado para a safra 2026. O documento inclui informações detalhadas sobre todos os serviços que oferecemos: insumos e equipamentos, estufas e sombrite, sistemas de irrigação, produção e mercado, e publicidade.',
+      },
+      {
+        heading: 'Promoções Especiais',
+        body: 'O panfleto inclui promoções exclusivas para novos clientes, descontos em pacotes de serviços e condições especiais para produtores que aderirem aos nossos sistemas de irrigação solar durante o primeiro trimestre de 2026.',
+      },
+      {
+        heading: 'Como Descarregar',
+        body: 'Clique no botão de download abaixo para obter o panfleto em formato de imagem. Para uma versão impressa ou mais informações, contacte-nos através do WhatsApp ou email.',
+      },
+    ],
     isDownload: true,
   },
+];
+
+export const heroSlides = [
+  '/images/irrigation/Sistema_de_Irrigacao_por_aspersores1.jpg',
+  '/images/equipments/Sementes_e_equipamentos.jpg',
+  '/images/irrigation/Kit_de_Irrigacao_por_Gota_a_gota1.jpg',
+  '/images/sombrite/Hidroponico.png',
+  '/images/equipments/Grade_Disponivel.jpg',
+  '/images/equipments/Adubos1.jpg',
 ];

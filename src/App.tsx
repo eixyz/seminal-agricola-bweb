@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
+import Chatbot from './components/Chatbot';
 import HomePage from './pages/HomePage';
 import ProdutosPage from './pages/ProdutosPage';
 import ProductDetailPage from './pages/ProductDetailPage';
@@ -9,6 +10,7 @@ import ServicosPage from './pages/ServicosPage';
 import ServiceDetailPage from './pages/ServiceDetailPage';
 import SobrePage from './pages/SobrePage';
 import NoticiasPage from './pages/NoticiasPage';
+import NewsDetailPage from './pages/NewsDetailPage';
 import ContactoPage from './pages/ContactoPage';
 
 export default function App() {
@@ -26,11 +28,13 @@ export default function App() {
             <Route path="/servicos/:slug" element={<ServiceDetailPage />} />
             <Route path="/sobre" element={<SobrePage />} />
             <Route path="/noticias" element={<NoticiasPage />} />
+          <Route path="/noticias/:slug" element={<NewsDetailPage />} />
             <Route path="/contacto" element={<ContactoPage />} />
             <Route path="*" element={<HomePage />} />
           </Routes>
         </main>
         <Footer />
+        <Chatbot />
       </div>
     </BrowserRouter>
   );
